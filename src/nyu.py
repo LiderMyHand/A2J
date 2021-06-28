@@ -10,7 +10,9 @@ import model as model
 import anchor as anchor
 from tqdm import tqdm
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "3"
+# +
+#os.environ["CUDA_VISIBLE_DEVICES"] = "3"
+# -
 
 fx = 588.03
 fy = -587.07
@@ -32,7 +34,11 @@ try:
 except OSError:
     pass
 
-testingImageDir = '/data/zhangboshen/CODE/Anchor_Pose_fpn/data/nyu/test_nyu/'  # mat images
+
+
+
+
+testingImageDir = '../data_test_mat/'  # mat images
 center_file = '../data/nyu/nyu_center_test.mat'
 MEAN = np.load('../data/nyu/nyu_mean.npy')
 STD = np.load('../data/nyu/nyu_std.npy')
@@ -51,7 +57,7 @@ def world2pixel(x, fx, fy, ux, uy):
     x[:, :, 0] = x[:, :, 0] * fx / x[:, :, 2] + ux
     x[:, :, 1] = x[:, :, 1] * fy / x[:, :, 2] + uy
     return x
-    
+
 
 keypointsUVD_test = scio.loadmat(keypoint_file)['keypoints3D'].astype(np.float32)      
 center_test = scio.loadmat(center_file)['centre_pixel'].astype(np.float32)
@@ -141,12 +147,12 @@ class my_dataloader(torch.utils.data.Dataset):
     def __len__(self):
         return len(self.center)
 
-      
+
 test_image_datasets = my_dataloader(testingImageDir, center_test, test_lefttop_pixel, test_rightbottom_pixel, keypointsUVD_test)
 test_dataloaders = torch.utils.data.DataLoader(test_image_datasets, batch_size = batch_size,
                                              shuffle = False, num_workers = 8)
 
-      
+
 def main():   
     
     net = model.A2J_model(num_classes = keypointsNumber)
@@ -172,7 +178,7 @@ def main():
     writeTxt(result, center_test)
     error = errorCompute(result, keypointsUVD_test, center_test)
     print('Error:', error)
-    
+
 
 def errorCompute(source, target, center):
     assert np.shape(source)==np.shape(target), "source has different shape with target"
@@ -213,9 +219,9 @@ def errorCompute(source, target, center):
     errors = np.sqrt(np.sum((labels - outputs) ** 2, axis=2))
 
     return np.mean(errors)
-   
 
-   
+
+
 def writeTxt(result, center):
 
     resultUVD_ = result.copy()
@@ -258,8 +264,16 @@ def writeTxt(result, center):
 
     f.close()
 
+torch.cuda.is_available()
+
 if __name__ == '__main__':
     main()
-    
-    
-      
+
+# !pwd
+
+
+# !ls /home
+
+# !ls /home/kuka2
+
+
