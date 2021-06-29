@@ -1,6 +1,6 @@
 numpy
-opencv-python
 matplotlib
 tqdm
 torchnet
 scipy
+opencv-python

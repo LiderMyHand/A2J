@@ -38,7 +38,7 @@ except OSError:
 
 
 
-testingImageDir = '../data_test_mat/'  # mat images
+testingImageDir = '../test_data/'  # mat images
 center_file = '../data/nyu/nyu_center_test.mat'
 MEAN = np.load('../data/nyu/nyu_mean.npy')
 STD = np.load('../data/nyu/nyu_std.npy')
@@ -275,5 +275,13 @@ if __name__ == '__main__':
 # !ls /home
 
 # !ls /home/kuka2
+
+pwd
+
+# cd ../test_data/test
+
+# cd ../model
+
+# cd ../test_data
 
 
